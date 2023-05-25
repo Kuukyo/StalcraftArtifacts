@@ -2,5 +2,10 @@
   "KZS-5": {
     "protection": 0.5,
     "cells": 5
+  },
+
+  "Cocoon Container": {
+    "protection": 0.93,
+    "cells": 3
   }
 }
