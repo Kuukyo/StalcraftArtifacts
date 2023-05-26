@@ -92,7 +92,7 @@ class GeneticTest(unittest.TestCase):
         optimizer = "speed"
         g = genetic_algorithm.GeneticAlgorithm(container=container, armor=209.7, quality=105.0, potential=10,
                                                optimizer=optimizer)
-        g.train_ga()
+        g.setup_ga()
         g.save_ga(optimizer)
         g.display_best_solution()
 

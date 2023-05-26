@@ -1,26 +1,37 @@
 {
   "KZS-5": {
+    "name": "KZS-5",
     "protection": 0.5,
     "cells": 5
   },
 
   "Cocoon Container": {
+    "name": "Cocoon Container",
     "protection": 0.93,
     "cells": 3
   },
 
   "Forager Container": {
+    "name": "Forager Container",
     "protection": 0.6,
     "cells": 4
   },
 
    "Bear's Den - 6": {
+    "name": "Bear's Den - 6",
     "protection": 0.6,
     "cells": 6
   },
 
    "Hive Container": {
+    "name": "Hive Container",
     "protection": 0.85,
     "cells": 5
+  },
+
+  "Tri-Zip Assault Backpack": {
+    "name": "Hive Container",
+    "protection": 0,
+    "cells": 4
   }
 }

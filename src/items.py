@@ -242,5 +242,6 @@ class Container:
         containers = lib.load_mem("../resources/containers.json")
         container = containers[name]
 
+        self.name = container["name"]
         self.protection = container["protection"]
         self.cells = container["cells"]

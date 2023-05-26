@@ -115,7 +115,7 @@ class GeneticAlgorithm:
 
         return gene_space
 
-    def train_ga(self):
+    def setup_ga(self):
         fitness_function = self.fitness_func
 
         num_generations = 150
@@ -145,14 +145,14 @@ class GeneticAlgorithm:
                            mutation_by_replacement=True,
                            mutation_probability=mutation_probability)
 
-        def run():  
-            self.GA.run()
+    def run(self):
+        self.GA.run()
 
-    def save_ga(self, optimizer: str):
-        self.GA.save(f"../resources/saves/{self.container}-{optimizer}")
+    def save_ga(self):
+        self.GA.save(f"../resources/saves/{self.container.name}-{self.optimizer}")
 
-    def load_ga(self, optimizer: str):
-        self.GA = pygad.load(f"../resources/saves/{optimizer}")
+    def load_ga(self):
+        self.GA = pygad.load(f"../resources/saves/{self.container.name}-{self.optimizer}")
 
     def display_best_solution(self):
         solution, solution_fitness, solution_idx = self.GA.best_solution()
