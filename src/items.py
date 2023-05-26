@@ -59,6 +59,7 @@ class Artifact:
         self.thermal_resistance = get_value(artifact["thermal_resistance"], quality, potential)
         self.health_regeneration = get_value(artifact["health_regeneration"], quality, potential)
         self.bleeding = get_value(artifact["bleeding"], quality, potential)
+        self.bleeding_protection = get_value(artifact["bleeding_protection"], quality, potential)
         self.reaction_to_burns = get_value(artifact["reaction_to_burns"], quality, potential)
         self.frost = get_value(artifact["frost"], quality, potential, True)
         self.melee_protection = get_value(artifact["melee_protection"], quality, potential)
@@ -136,6 +137,9 @@ class Artifact:
         if property == "bleeding":
             self.bleeding += get_value(prop_range, self.quality, self.potential, extra=True)
             self.bleeding = round(self.bleeding, 2)
+        if property == "bleeding_protection":
+            self.bleeding_protection += get_value(prop_range, self.quality, self.potential, extra=True)
+            self.bleeding_protection = round(self.bleeding, 2)
         if property == "reaction_to_burns":
             self.reaction_to_burns += get_value(prop_range, self.quality, self.potential, extra=True)
             self.reaction_to_burns = round(self.reaction_to_burns, 2)
@@ -211,6 +215,8 @@ class Artifact:
             res += f"Health regeneration: {self.health_regeneration}%\n"
         if self.bleeding != 0:
             res += f"Bleeding: {self.bleeding}\n"
+        if self.bleeding_protection != 0:
+            res += f"Bleeding protection: {self.bleeding_protection}%\n"
         if self.reaction_to_burns != 0:
             res += f"Reaction to burns: {self.reaction_to_burns}%\n"
         if self.frost != 0:

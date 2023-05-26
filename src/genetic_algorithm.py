@@ -50,7 +50,7 @@ class GeneticAlgorithm:
             temp = round(temp, 2)
         if psy > 0:
             psy *= (1 - self.container.protection)
-            psy = round(temp, 2)
+            psy = round(psy, 2)
 
         if rad > 0.5 or bio > 0.5 or temp > 0.5 or psy > 1.5 or frost > 1:
             return -1
@@ -72,8 +72,12 @@ class GeneticAlgorithm:
 
             else:
                 extra_properties = artifact.extra_properties
-                property_index = list(extra_properties.keys())[cur_solution]
-                cur_properties.append(property_index)
+                if cur_solution > len(list(extra_properties.keys())) - 1:
+                    valid = False
+                    break
+                else:
+                    property_index = list(extra_properties.keys())[cur_solution]
+                    cur_properties.append(property_index)
 
             if len(cur_properties) != len(set(cur_properties)):
                 valid = False
@@ -89,7 +93,7 @@ class GeneticAlgorithm:
         for i in range(self.container.cells):
             gene_space.append({"low": min, "high": max})
             for j in range(self.amount_upgrades):
-                gene_space.append([0, 1, 2])
+                gene_space.append([0, 1, 2, 3])
 
         return gene_space
 
