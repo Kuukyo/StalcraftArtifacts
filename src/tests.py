@@ -1,5 +1,6 @@
 import items
 import unittest
+import genetic_algorithm
 
 
 class ArtifactTest(unittest.TestCase):
@@ -81,3 +82,11 @@ class ArtifactTest(unittest.TestCase):
         self.assertEqual(-2.11, items.get_value(prop, 160, 5, extra=True))
         self.assertEqual(-2.24, items.get_value(prop, 170, 5, extra=True))
         self.assertEqual(-2.31, items.get_value(prop, 175, 5, extra=True))
+
+
+class GeneticTest(unittest.TestCase):
+    def test_simple(self):
+        container = items.Container("Cocoon Container")
+        g = genetic_algorithm.GeneticAlgorithm(container=container, quality=100.0, potential=10)
+        g.train_ga()
+        print(g.display_best_solution())
