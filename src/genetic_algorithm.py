@@ -67,6 +67,8 @@ class GeneticAlgorithm:
         elif self.optimizer == "max_speed":
             return spd
         elif self.optimizer == "speed":
+            if stamina_regen > 21.5:
+                return spd + 21.5
             return spd + stamina_regen
         elif self.optimizer == "heal":
             return round((100 + bullet_res) * (vitality / 100) + heal_effect, 2)
@@ -118,7 +120,7 @@ class GeneticAlgorithm:
     def setup_ga(self):
         fitness_function = self.fitness_func
 
-        num_generations = 150
+        num_generations = 500
         num_parents_mating = 20
 
         sol_per_pop = 100
