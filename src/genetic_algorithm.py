@@ -6,7 +6,7 @@ import lib
 
 
 class GeneticAlgorithm:
-    def __init__(self, container: items.Container, armor: float, quality: float, potential: int):
+    def __init__(self, container: items.Container, armor: float, quality: float, potential: int, optimizer="eHP"):
         self.container = container
         self.armor = armor
         self.artifacts = lib.load_mem("../resources/artifacts.json")
@@ -15,6 +15,7 @@ class GeneticAlgorithm:
         self.GA = None
         self.amount_upgrades = math.floor(self.potential / 5)
         self.num_genes = self.container.cells * (self.amount_upgrades + 1)
+        self.optimizer = optimizer
 
     def fitness_func(self, ga_instance, solution, solution_idx):
         artifacts, valid = self.get_artifacts_from_solution(solution)
@@ -24,6 +25,8 @@ class GeneticAlgorithm:
 
         vitality = 100
         bullet_res = self.armor
+        spd = 0
+        stamina_regen = 0
         rad = 0
         bio = 0
         temp = 0
@@ -33,6 +36,8 @@ class GeneticAlgorithm:
         for art in artifacts:
             vitality += art.vitality
             bullet_res += art.bullet_resistance
+            spd += art.movement_speed
+            stamina_regen += art.stamina_regen
             rad += art.radiation
             bio += art.biological_infection
             temp += art.temperature
@@ -55,7 +60,14 @@ class GeneticAlgorithm:
         if rad > 0.5 or bio > 0.5 or temp > 0.5 or psy > 1.5 or frost > 1:
             return -1
 
-        return round((100 + bullet_res) * (vitality / 100), 2)
+        if self.optimizer == "eHP":
+            return round((100 + bullet_res) * (vitality / 100), 2)
+        elif self.optimizer == "max_speed":
+            return spd
+        elif self.optimizer == "speed":
+            return spd + stamina_regen
+        else:
+            raise ValueError("Invalid optimizer")
 
     def get_artifacts_from_solution(self, solution):
         artifacts = []
@@ -100,7 +112,7 @@ class GeneticAlgorithm:
     def train_ga(self):
         fitness_function = self.fitness_func
 
-        num_generations = 50
+        num_generations = 100
         num_parents_mating = 20
 
         sol_per_pop = 100
