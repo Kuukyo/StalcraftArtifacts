@@ -112,7 +112,7 @@ class GeneticAlgorithm:
     def train_ga(self):
         fitness_function = self.fitness_func
 
-        num_generations = 100
+        num_generations = 500
         num_parents_mating = 20
 
         sol_per_pop = 100
@@ -141,8 +141,11 @@ class GeneticAlgorithm:
 
         self.GA.run()
 
-    def save_ga(self):
-        self.GA.save("../resources/saves/save")
+    def save_ga(self, optimizer: str):
+        self.GA.save(f"../resources/saves/{optimizer}")
+
+    def load_ga(self, optimizer: str):
+        self.GA = pygad.load(f"../resources/saves/{optimizer}")
 
     def display_best_solution(self):
         solution, solution_fitness, solution_idx = self.GA.best_solution()

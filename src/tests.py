@@ -1,3 +1,5 @@
+import pygad
+
 import items
 import unittest
 import genetic_algorithm
@@ -85,9 +87,21 @@ class ArtifactTest(unittest.TestCase):
 
 
 class GeneticTest(unittest.TestCase):
-    def test_simple(self):
+    def test_train_ga(self):
+        container = items.Container("Cocoon Container")
+        optimizer = "speed"
+        g = genetic_algorithm.GeneticAlgorithm(container=container, armor=209.7, quality=105.0, potential=10,
+                                               optimizer=optimizer)
+        g.train_ga()
+        g.save_ga(optimizer)
+        g.display_best_solution()
+
+    def test_load_ga(self):
+        optimizer = "speed"
         container = items.Container("Hive Container")
         g = genetic_algorithm.GeneticAlgorithm(container=container, armor=209.7, quality=105.0, potential=10,
-                                               optimizer="max_speed")
-        g.train_ga()
+                                               optimizer=optimizer)
+        g.load_ga(optimizer)
+        g.GA.run()
+        g.save_ga(optimizer)
         g.display_best_solution()
