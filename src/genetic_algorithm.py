@@ -6,8 +6,9 @@ import lib
 
 
 class GeneticAlgorithm:
-    def __init__(self, container: items.Container, quality: float, potential: int):
+    def __init__(self, container: items.Container, armor: float, quality: float, potential: int):
         self.container = container
+        self.armor = armor
         self.artifacts = lib.load_mem("../resources/artifacts.json")
         self.quality = quality
         self.potential = potential
@@ -22,7 +23,7 @@ class GeneticAlgorithm:
             return -1
 
         vitality = 100
-        bullet_res = 0
+        bullet_res = self.armor
         rad = 0
         bio = 0
         temp = 0
@@ -134,6 +135,7 @@ class GeneticAlgorithm:
         artifacts = self.get_artifacts_from_solution(solution)[0]
         for art in artifacts:
             sol_str += f"{art.to_string()}\n"
+
         print(f"Best solution:\n{sol_str}")
         print(f"Fitness of best solution: {solution_fitness}")
         return solution

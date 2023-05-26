@@ -86,6 +86,7 @@ class ArtifactTest(unittest.TestCase):
 
 class GeneticTest(unittest.TestCase):
     def test_simple(self):
-        container = items.Container("Cocoon Container")
+        container = items.Container("Hive Container")
         g = genetic_algorithm.GeneticAlgorithm(container=container, quality=100.0, potential=10)
         g.train_ga()
+        g.display_best_solution()

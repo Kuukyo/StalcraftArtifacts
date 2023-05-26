@@ -7,5 +7,20 @@
   "Cocoon Container": {
     "protection": 0.93,
     "cells": 3
+  },
+
+  "Forager Container": {
+    "protection": 0.6,
+    "cells": 4
+  },
+
+   "Bear's Den - 6": {
+    "protection": 0.6,
+    "cells": 6
+  },
+
+   "Hive Container": {
+    "protection": 0.85,
+    "cells": 5
   }
 }
