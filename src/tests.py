@@ -89,4 +89,3 @@ class GeneticTest(unittest.TestCase):
         container = items.Container("Cocoon Container")
         g = genetic_algorithm.GeneticAlgorithm(container=container, quality=100.0, potential=10)
         g.train_ga()
-        print(g.display_best_solution())
