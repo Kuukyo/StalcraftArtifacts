@@ -101,9 +101,9 @@ class GeneticAlgorithm:
         fitness_function = self.fitness_func
 
         num_generations = 50
-        num_parents_mating = 200
+        num_parents_mating = 20
 
-        sol_per_pop = 1000
+        sol_per_pop = 100
 
         min_value = 0
         max_value = len(self.artifacts)
