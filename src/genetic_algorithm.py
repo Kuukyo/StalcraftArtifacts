@@ -25,6 +25,7 @@ class GeneticAlgorithm:
 
         vitality = 100
         bullet_res = self.armor
+        heal_effect = 0
         spd = 0
         stamina_regen = 0
         rad = 0
@@ -36,6 +37,7 @@ class GeneticAlgorithm:
         for art in artifacts:
             vitality += art.vitality
             bullet_res += art.bullet_resistance
+            heal_effect += art.healing_effectiveness
             spd += art.movement_speed
             stamina_regen += art.stamina_regen
             rad += art.radiation
@@ -57,7 +59,7 @@ class GeneticAlgorithm:
             psy *= (1 - self.container.protection)
             psy = round(psy, 2)
 
-        if rad > 0.5 or bio > 0.5 or temp > 0.5 or psy > 1.5 or frost > 1:
+        if rad >= 0.5 or bio >= 0.5 or temp >= 0.5 or psy >= 1.5 or frost >= 1:
             return -1
 
         if self.optimizer == "eHP":
@@ -66,6 +68,10 @@ class GeneticAlgorithm:
             return spd
         elif self.optimizer == "speed":
             return spd + stamina_regen
+        elif self.optimizer == "heal":
+            return round((100 + bullet_res) * (vitality / 100) + heal_effect, 2)
+        elif self.optimizer == "max_heal":
+            return heal_effect
         else:
             raise ValueError("Invalid optimizer")
 
@@ -112,7 +118,7 @@ class GeneticAlgorithm:
     def train_ga(self):
         fitness_function = self.fitness_func
 
-        num_generations = 500
+        num_generations = 150
         num_parents_mating = 20
 
         sol_per_pop = 100
@@ -139,7 +145,8 @@ class GeneticAlgorithm:
                            mutation_by_replacement=True,
                            mutation_probability=mutation_probability)
 
-        self.GA.run()
+        def run():  
+            self.GA.run()
 
     def save_ga(self, optimizer: str):
         self.GA.save(f"../resources/saves/{optimizer}")
