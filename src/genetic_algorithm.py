@@ -149,7 +149,7 @@ class GeneticAlgorithm:
             self.GA.run()
 
     def save_ga(self, optimizer: str):
-        self.GA.save(f"../resources/saves/{optimizer}")
+        self.GA.save(f"../resources/saves/{self.container}-{optimizer}")
 
     def load_ga(self, optimizer: str):
         self.GA = pygad.load(f"../resources/saves/{optimizer}")
