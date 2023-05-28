@@ -71,99 +71,10 @@ class Artifact:
         self.extra_properties = artifact["extra_properties"]
 
     def add_property(self, property, prop_range):
-        if property == "vitality":
-            self.vitality += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.vitality = round(self.vitality, 2)
-        if property == "stamina_regen":
-            self.stamina_regen += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.stamina_regen = round(self.stamina_regen, 2)
-        if property == "psy_emissions":
-            self.psy_emissions += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.psy_emissions = round(self.psy_emissions, 2)
-        if property == "psy_emissions_protection":
-            self.psy_emission_protection += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.psy_emission_protection = round(self.psy_emission_protection, 2)
-        if property == "stamina":
-            self.stamina += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.stamina = round(self.stamina, 2)
-        if property == "movement_speed":
-            self.movement_speed += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.movement_speed = round(self.movement_speed, 2)
-        if property == "temperature":
-            self.temperature += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.temperature = round(self.temperature, 2)
-        if property == "reaction_to_electricity":
-            self.reaction_to_electricity += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.reaction_to_electricity = round(self.reaction_to_electricity, 2)
-        if property == "biological_infection":
-            self.biological_infection += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.biological_infection = round(self.biological_infection, 2)
-        if property == "thermal_protection":
-            self.thermal_protection += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.thermal_protection = round(self.thermal_protection, 2)
-        if property == "psy_emission_resistance":
-            self.psy_emission_resistance += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.psy_emission_resistance = round(self.psy_emission_resistance, 2)
-        if property == "carry_weight":
-            self.carry_weight += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.carry_weight = round(self.carry_weight, 2)
-        if property == "radiation_protection":
-            self.radiation_protection += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.radiation_protection = round(self.radiation_protection, 2)
-        if property == "healing_effectiveness":
-            self.healing_effectiveness += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.healing_effectiveness = round(self.healing_effectiveness, 2)
-        if property == "bullet_resistance":
-            self.bullet_resistance += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.bullet_resistance = round(self.bullet_resistance, 2)
-        if property == "radiation_protection":
-            self.radiation_protection += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.radiation_protection = round(self.radiation_protection, 2)
-        if property == "explosion_protection":
-            self.explosion_protection += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.explosion_protection = round(self.explosion_protection, 2)
-        if property == "radiation_resistance":
-            self.radiation_resistance += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.radiation_resistance = round(self.radiation_resistance, 2)
-        if property == "bioinfection_resistance":
-            self.bioinfection_resistance += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.bioinfection_resistance = round(self.bioinfection_resistance, 2)
-        if property == "thermal_resistance":
-            self.thermal_resistance += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.thermal_resistance = round(self.thermal_resistance, 2)
-        if property == "health_regeneration":
-            self.health_regeneration += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.health_regeneration = round(self.health_regeneration, 2)
-        if property == "bleeding":
-            self.bleeding += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.bleeding = round(self.bleeding, 2)
-        if property == "bleeding_protection":
-            self.bleeding_protection += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.bleeding_protection = round(self.bleeding, 2)
-        if property == "reaction_to_burns":
-            self.reaction_to_burns += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.reaction_to_burns = round(self.reaction_to_burns, 2)
-        if property == "frost":
-            self.frost += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.frost = round(self.frost, 2)
-        if property == "melee_protection":
-            self.melee_protection += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.melee_protection = round(self.melee_protection, 2)
-        if property == "reaction_to_melee":
-            self.reaction_to_melee += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.reaction_to_melee = round(self.reaction_to_melee, 2)
-        if property == "resistance_to_fire":
-            self.resistance_to_fire += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.resistance_to_fire = round(self.resistance_to_fire, 2)
-        if property == "resistance_to_chemicals":
-            self.resistance_to_chemicals += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.resistance_to_chemicals = round(self.resistance_to_chemicals, 2)
-        if property == "resistance_to_chemical_burns":
-            self.resistance_to_chemical_burns += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.resistance_to_chemical_burns = round(self.resistance_to_chemical_burns, 2)
-        if property == "bioinfection_protection":
-            self.bioinfection_protection += get_value(prop_range, self.quality, self.potential, extra=True)
-            self.bioinfection_protection = round(self.bioinfection_protection, 2)
+        attr = getattr(self, property)
+        attr += get_value(prop_range, self.quality, self.potential, extra=True)
+        attr = round(attr, 2)
+        setattr(self, property, attr)
 
     def set_additional_properties(self, properties):
         for property in properties:
