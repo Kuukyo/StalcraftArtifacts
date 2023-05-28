@@ -1,2 +1,1 @@
-discord.py==2.2.3
 pygad==3.0.1

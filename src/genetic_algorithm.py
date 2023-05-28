@@ -125,10 +125,10 @@ class GeneticAlgorithm:
     def setup_ga(self):
         fitness_function = self.fitness_func
 
-        num_generations = 100
-        num_parents_mating = 10
+        num_generations = 1000
+        num_parents_mating = 20
 
-        sol_per_pop = 50
+        sol_per_pop = 100
 
         min_value = 0
         max_value = len(self.artifacts)
