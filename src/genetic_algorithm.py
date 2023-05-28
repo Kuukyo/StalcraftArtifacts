@@ -28,6 +28,7 @@ class GeneticAlgorithm:
         heal_effect = 0
         spd = 0
         stamina_regen = 0
+        carry_weight = 0
         rad = 0
         bio = 0
         temp = 0
@@ -40,11 +41,15 @@ class GeneticAlgorithm:
             heal_effect += art.healing_effectiveness
             spd += art.movement_speed
             stamina_regen += art.stamina_regen
+            carry_weight += art.carry_weight
             rad += art.radiation
             bio += art.biological_infection
             temp += art.temperature
             psy += art.psy_emissions
             frost += art.frost
+
+        if vitality < 0:
+            return -1
 
         if rad > 0:
             rad *= (1 - self.container.protection)
@@ -59,7 +64,7 @@ class GeneticAlgorithm:
             psy *= (1 - self.container.protection)
             psy = round(psy, 2)
 
-        if rad >= 0.5 or bio >= 0.5 or temp >= 0.5 or psy >= 1.5 or frost >= 1:
+        if rad >= 0.5 or bio >= 0.5 or temp >= 0.5 or psy >= 1.5 or frost > 0:
             return -1
 
         if self.optimizer == "eHP":
@@ -68,10 +73,10 @@ class GeneticAlgorithm:
             return spd
         elif self.optimizer == "speed":
             if stamina_regen > 21.5:
-                return spd + 21.5
-            return spd + stamina_regen
+                return spd + 21.5 + carry_weight / 3
+            return spd + stamina_regen + carry_weight / 3
         elif self.optimizer == "heal":
-            return round((100 + bullet_res) * (vitality / 100) + heal_effect, 2)
+            return round((100 + bullet_res) * (vitality / 100) + heal_effect / 10, 2)
         elif self.optimizer == "max_heal":
             return heal_effect
         else:
@@ -120,10 +125,10 @@ class GeneticAlgorithm:
     def setup_ga(self):
         fitness_function = self.fitness_func
 
-        num_generations = 500
-        num_parents_mating = 20
+        num_generations = 100
+        num_parents_mating = 10
 
-        sol_per_pop = 100
+        sol_per_pop = 50
 
         min_value = 0
         max_value = len(self.artifacts)
