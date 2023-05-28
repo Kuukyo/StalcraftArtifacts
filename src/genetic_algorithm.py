@@ -1,5 +1,5 @@
 import math
-
+import numpy as np
 import pygad
 import items
 import lib
@@ -72,9 +72,7 @@ class GeneticAlgorithm:
         elif self.optimizer == "max_speed":
             return spd
         elif self.optimizer == "speed":
-            if stamina_regen > 21.5:
-                return spd + 21.5 + carry_weight / 3
-            return spd + stamina_regen + carry_weight / 3
+            return spd + np.minimum(stamina_regen, 21.5) + carry_weight / 3
         elif self.optimizer == "heal":
             return round((100 + bullet_res) * (vitality / 100) + heal_effect / 10, 2)
         elif self.optimizer == "max_heal":
