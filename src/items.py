@@ -4,7 +4,12 @@ import lib
 def get_value(property, quality: float, potential: int, negative=False, extra=False):
     min = property[0]
     max = property[1]
-    diff = max - min
+    if min < 0 and max < 0:
+        temp = min
+        min = max
+        max = temp
+
+    diff = abs(max - min)
 
     if extra:
         if quality < 100:
@@ -35,7 +40,7 @@ class Artifact:
         artifact = artifacts[name]
 
         properties = artifacts[name].keys()
-        spcl_properties = ["psy_emissions", "temperature", "radiation", "biological_infection", "frost"]
+        spcl_properties = ["Psy-emissions", "Temperature", "Radiation", "Biological infection", "Frost"]
 
         self.name = name
         self.quality = quality
@@ -55,8 +60,13 @@ class Artifact:
             value_ = get_value(value, quality, potential, is_spcl)
             setattr(self, prop, value_)
 
+    def get_attr(self, attr):
+        if not hasattr(self, attr):
+            return 0.0
+        return getattr(self, attr)
+
     def add_property(self, property, prop_range):
-        attr = getattr(self, property)
+        attr = self.get_attr(property)
         attr += get_value(prop_range, self.quality, self.potential, extra=True)
         attr = round(attr, 2)
         setattr(self, property, attr)
@@ -67,68 +77,64 @@ class Artifact:
 
     def to_string(self):
         res = f"Name: {self.name} {self.quality}% +{self.potential}\n"
-        if self.vitality != 0:
-            res += f"Vitality: {self.vitality}%\n"
-        if self.stamina_regen != 0:
-            res += f"Stamina Regen: {self.stamina_regen}%\n"
-        if self.psy_emissions != 0:
-            res += f"Psy-emissions: {self.psy_emissions}\n"
-        if self.psy_emissions_protection != 0:
-            res += f"Psy-Emission Protection: {self.psy_emission_protection}\n"
-        if self.stamina != 0:
-            res += f"Stamina: {self.stamina}%\n"
-        if self.movement_speed != 0:
-            res += f"Movement speed: {self.movement_speed}%\n"
-        if self.temperature != 0:
-            res += f"Temperature: {self.temperature}\n"
-        if self.reaction_to_electricity != 0:
-            res += f"Reaction to electricity: {self.reaction_to_electricity}%\n"
-        if self.radiation != 0:
-            res += f"Radiation: {self.radiation}\n"
-        if self.biological_infection != 0:
-            res += f"Biological infection: {self.biological_infection}\n"
-        if self.thermal_protection != 0:
-            res += f"Thermal protection: {self.thermal_protection}\n"
-        if self.psy_emission_resistance != 0:
-            res += f"Psy-emission resistance: {self.psy_emission_resistance}%\n"
-        if self.carry_weight != 0:
-            res += f"Carry weight: {self.carry_weight}\n"
-        if self.radiation_protection != 0:
-            res += f"Radiation protection: {self.radiation_protection}\n"
-        if self.healing_effectiveness != 0:
-            res += f"Healing effectiveness: {self.healing_effectiveness}%\n"
-        if self.bullet_resistance != 0:
-            res += f"Bullet resistance: {self.bullet_resistance}\n"
-        if self.explosion_protection != 0:
-            res += f"Explosion protection: {self.explosion_protection}\n"
-        if self.radiation_resistance != 0:
-            res += f"Radiation resistance: {self.radiation_resistance}%\n"
-        if self.bioinfection_resistance != 0:
-            res += f"Bioinfection resistance: {self.bioinfection_resistance}%\n"
-        if self.thermal_resistance != 0:
-            res += f"Thermal resistance: {self.thermal_resistance}%\n"
-        if self.health_regeneration != 0:
-            res += f"Health regeneration: {self.health_regeneration}%\n"
-        if self.bleeding != 0:
-            res += f"Bleeding: {self.bleeding}\n"
-        if self.bleeding_protection != 0:
-            res += f"Bleeding protection: {self.bleeding_protection}%\n"
-        if self.reaction_to_burns != 0:
-            res += f"Reaction to burns: {self.reaction_to_burns}%\n"
-        if self.frost != 0:
-            res += f"Frost: {self.frost}\n"
-        if self.melee_protection != 0:
-            res += f"Melee protection: {self.melee_protection}\n"
-        if self.reaction_to_melee != 0:
-            res += f"Reaction to melee: {self.reaction_to_melee}%\n"
-        if self.resistance_to_fire != 0:
-            res += f"Resistance to fire: {self.resistance_to_fire}\n"
-        if self.resistance_to_chemicals != 0:
-            res += f"Resistance to chemicals: {self.resistance_to_chemicals}\n"
-        if self.resistance_to_chemical_burns != 0:
-            res += f"Resistance to chemical burns: {self.resistance_to_chemical_burns}%\n"
-        if self.bioinfection_protection != 0:
-            res += f"Bioinfection Protection: {self.bioinfection_protection}\n"
+        if self.get_attr('Vitality') != 0:
+            res += f"Vitality: {self.get_attr('Vitality')}%\n"
+        if self.get_attr('Stamina regeneration') != 0:
+            res += f"Stamina regeneration: {self.get_attr('Stamina regeneration')}%\n"
+        if self.get_attr('Psy-emissions') != 0:
+            res += f"Psy-emissions: {self.get_attr('Psy-emissions')}\n"
+        if self.get_attr('Psy-emission resistance') != 0:
+            res += f"Psy-Emission Protection: {self.get_attr('Psy-emission resistance')}\n"
+        if self.get_attr('Stamina') != 0:
+            res += f"Stamina: {self.get_attr('Stamina')}%\n"
+        if self.get_attr('Movement speed') != 0:
+            res += f"Movement speed: {self.get_attr('Movement speed')}%\n"
+        if self.get_attr('Temperature') != 0:
+            res += f"Temperature: {self.get_attr('Temperature')}\n"
+        if self.get_attr('Reaction to electricity') != 0:
+            res += f"Reaction to electricity: {self.get_attr('Reaction to electricity')}%\n"
+        if self.get_attr('Radiation') != 0:
+            res += f"Radiation: {self.get_attr('Radiation')}\n"
+        if self.get_attr('Biological infection') != 0:
+            res += f"Biological infection: {self.get_attr('Biological infection')}\n"
+        if self.get_attr('Thermal resistance') != 0:
+            res += f"Thermal protection: {self.get_attr('Thermal resistance')}\n"
+        if self.get_attr('Psy-emission resistance') != 0:
+            res += f"Psy-emission resistance: {self.get_attr('Psy-emission resistance')}%\n"
+        if self.get_attr('Carry weight') != 0:
+            res += f"Carry weight: {self.get_attr('Carry weight')}\n"
+        if self.get_attr('Radiation resistance') != 0:
+            res += f"Radiation protection: {self.get_attr('Radiation resistance')}\n"
+        if self.get_attr('Healing effectiveness') != 0:
+            res += f"Healing effectiveness: {self.get_attr('Healing effectiveness')}%\n"
+        if self.get_attr('Bullet resistance') != 0:
+            res += f"Bullet resistance: {self.get_attr('Bullet resistance')}\n"
+        if self.get_attr('Explosion protection') != 0:
+            res += f"Explosion protection: {self.get_attr('Explosion protection')}\n"
+        if self.get_attr('Radiation resistance') != 0:
+            res += f"Radiation resistance: {self.get_attr('Radiation resistance')}%\n"
+        if self.get_attr('Bioinfection resistance') != 0:
+            res += f"Bioinfection resistance: {self.get_attr('Bioinfection resistance')}%\n"
+        if self.get_attr('Thermal resistance') != 0:
+            res += f"Thermal resistance: {self.get_attr('Thermal resistance')}%\n"
+        if self.get_attr('Health regeneration') != 0:
+            res += f"Health regeneration: {self.get_attr('Health regeneration')}%\n"
+        if self.get_attr('Bleeding') != 0:
+            res += f"Bleeding: {self.get_attr('Bleeding')}\n"
+        if self.get_attr('Bleeding protection') != 0:
+            res += f"Bleeding protection: {self.get_attr('Bleeding protection')}%\n"
+        if self.get_attr('Reaction to burns') != 0:
+            res += f"Reaction to burns: {self.get_attr('Reaction to burns')}%\n"
+        if self.get_attr('Frost') != 0:
+            res += f"Frost: {self.get_attr('Frost')}\n"
+        if self.get_attr('Laceration protection') != 0:
+            res += f"Melee protection: {self.get_attr('Laceration protection')}\n"
+        if self.get_attr('Reaction to laceration') != 0:
+            res += f"Reaction to melee: {self.get_attr('Reaction to laceration')}%\n"
+        if self.get_attr('Reaction to chemical burns') != 0:
+            res += f"Resistance to chemical burns: {self.get_attr('Reaction to chemical burns')}%\n"
+        if self.get_attr('Bioinfection protection') != 0:
+            res += f"Bioinfection Protection: {self.get_attr('Bioinfection protection')}\n"
 
         return res
 

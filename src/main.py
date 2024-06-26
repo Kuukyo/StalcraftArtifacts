@@ -2,9 +2,10 @@ import genetic_algorithm
 import items
 
 
-container = items.Container("Bear's Den - 6")
-optimizer = "speed"
-ga = genetic_algorithm.GeneticAlgorithm(container, 209.7, 100, 10, optimizer)
+container = items.Container("Hive Container")
+optimizer = "eHP"
+ga = genetic_algorithm.GeneticAlgorithm(container, 351.23, 115, 15, optimizer)
+#ga.load_ga()
 ga.setup_ga()
 ga.run()
 ga.save_ga()

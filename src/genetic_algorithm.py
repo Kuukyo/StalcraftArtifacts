@@ -26,6 +26,7 @@ class GeneticAlgorithm:
         vitality = 100
         bullet_res = self.armor
         heal_effect = 0
+        regen = 0
         spd = 0
         stamina_regen = 0
         carry_weight = 0
@@ -36,17 +37,18 @@ class GeneticAlgorithm:
         frost = 0
 
         for art in artifacts:
-            vitality += art.vitality
-            bullet_res += art.bullet_resistance
-            heal_effect += art.healing_effectiveness
-            spd += art.movement_speed
-            stamina_regen += art.stamina_regen
-            carry_weight += art.carry_weight
-            rad += art.radiation
-            bio += art.biological_infection
-            temp += art.temperature
-            psy += art.psy_emissions
-            frost += art.frost
+            vitality += art.get_attr('Vitality')
+            bullet_res += art.get_attr('Bullet resistance')
+            heal_effect += art.get_attr('Healing effectiveness')
+            regen += art.get_attr("Health regeneration")
+            spd += art.get_attr('Movement speed')
+            stamina_regen += art.get_attr('Stamina regeneration')
+            carry_weight += art.get_attr('Carry weight')
+            rad += art.get_attr('Radiation')
+            bio += art.get_attr('Biological infection')
+            temp += art.get_attr('Temperature')
+            psy += art.get_attr('Psy-emissions')
+            frost += art.get_attr('Frost')
 
         if vitality < 0:
             return -1
@@ -64,7 +66,7 @@ class GeneticAlgorithm:
             psy *= (1 - self.container.protection)
             psy = round(psy, 2)
 
-        if rad >= 0.5 or bio >= 0.5 or temp >= 0.5 or psy >= 1.5 or frost > 0:
+        if rad >= 0.5 or bio >= 0.5 or temp >= 0.5 or psy >= 1.5 or frost >= 0.5:
             return -1
 
         if self.optimizer == "eHP":
@@ -72,11 +74,13 @@ class GeneticAlgorithm:
         elif self.optimizer == "max_speed":
             return spd
         elif self.optimizer == "speed":
-            return spd + np.minimum(stamina_regen, 21.5) + carry_weight / 3
-        elif self.optimizer == "heal":
-            return round((100 + bullet_res) * (vitality / 100) + heal_effect / 10, 2)
+            return (spd * np.minimum(stamina_regen, 24.5)) * np.minimum(carry_weight, 20)
+        elif self.optimizer == "test":
+            return 0.7 * (100 + bullet_res) * (vitality / 100) + 0.3 * (6 * ((1 + heal_effect) / 100) + (regen + 2.5) / 5)
         elif self.optimizer == "max_heal":
-            return heal_effect
+            return 6 * ((1 + heal_effect) / 100) + (regen + 2.5) / 5
+        elif self.optimizer == "max":
+            return round((100 + bullet_res) * (vitality / 100), 2) * np.minimum(stamina_regen, 24.5)
         else:
             raise ValueError("Invalid optimizer")
 
@@ -123,10 +127,10 @@ class GeneticAlgorithm:
     def setup_ga(self):
         fitness_function = self.fitness_func
 
-        num_generations = 1000
-        num_parents_mating = 10
+        num_generations = 500
+        num_parents_mating = 20
 
-        sol_per_pop = 50
+        sol_per_pop = 100
 
         min_value = 0
         max_value = len(self.artifacts)
